@@ -1,61 +1,35 @@
 # Unit 4 — Test and Submit
 
-Path: `beat-1-sandbox/unit-4/pull-request.md`
-
-Record of the pull request you opened against the Path Review repo, and of the evaluation
-runs that produced `eval-run.txt`. This file is graded at the path above; a copy kept
-anywhere else in the repository is not read.
-
-Complete every labelled field below. Each is graded on its own; content placed under the wrong
-label is not graded.
-
----
-
 ## Your pull request
 
 **Pull request**
 
-[Link to the pull request you opened. It must be the pull request's own page on the Path
-Review repo, not your fork's branch page.]
+https://github.com/codepath/pathreview-ai301-fa26-s1/pull/160
 
 **Branch**
 
-[The name of the branch the pull request comes from, exactly as it appears in your fork.
-The naming shape is a type prefix, then the issue number, then a short description. **The
-issue number in the branch name must be the number of the issue the pull request fixes** —
-a name carrying any other number does not satisfy this field.]
+`fix/71-heading-hierarchy-fixture`
 
 ## Eval iterations
 
-Answer all four sections. Quote source text directly; paraphrase does not satisfy these
-fields.
-
 **Run history**
 
-[The agreement score of each run you did, in order. A single run is a complete answer if
-only one run occurred. **The last score in your list must match the agreement line in the
-`eval-run.txt` you committed** — that file is the record of your final run.]
+1. Full run: 17/20 scored packages agreed with the gold labels. `pkg-08`, `pkg-11`, and `pkg-16` were false rejects.
+2. Targeted `--only` run after revising the skill: 7/7 agreed, including those three former disagreements and reject canaries `pkg-01`, `pkg-07`, `pkg-17`, and `pkg-20`.
+3. Confirming full run: **20/20** agreed, with a match in every category. This is the run saved in `eval-run.txt`.
 
 **Package analysis**
 
-[Pick one scored package (`pkg-01` through `pkg-20` — the four `calib-` packages are never
-scored). Name it by id, say what your rubric decided and what the gold label said, and
-explain why your rubric read it that way.]
+`pkg-20`: my rubric returned `reject`, matching the gold `reject`. The plan, diff, and reproduction evidence support the Ghostty color-scheme fix, but the repository facts state that its AI policy requires disclosure of both the tool used and the extent of assistance. The candidate PR contains neither. My required Repository standards check therefore fails even though its technical fix is plausible.
 
 **Check rationale**
 
-[Quote one check from the `rubric.md` you uploaded to `tools/pr-precheck/`, exactly as it reads now.
-Then say why it reads that way — what you revised to get there, or what you rejected in
-favour of it.]
+My current `rubric.md` check reads exactly:
+
+> | Repository standards | Compare Candidate PR description, issue thread, Repo facts' PR template and contribution/AI policies. | Applicable required template sections and issue linkage contain real content; explicit maintainer requests and contribution rules are met or honestly explained. In eval mode all packages are AI-assisted. Require a tool name and extent only when the stated policy asks for them; a policy asking merely for human-authored comments is met by a comment that says it is in the contributor's own words unless contradicted. Do not invent a policy where none is stated. | required |
+
+I revised this check after the first full run rejected `pkg-11`, a gold `accept`, by applying Ghostty's stricter disclosure standard to a different repository. The current wording ties each requirement to that repository's stated policy. It still rejects `pkg-20`, where the strict requirement is explicit.
 
 **Trade-offs**
 
-[Every check gives something up. Any one of these is a complete answer: a package whose
-result it changes, a canary you re-ran with `--only`, a case you accept it will miss, or a
-stated reason nothing changed elsewhere. "Nothing changed, and here is how I know" earns
-the point in full when the reason follows.]
-
----
-
-Related paths: `eval-run.txt` in this directory; your skill's files in
-`tools/pr-precheck/`.
+The narrower policy rule accepts `pkg-11` instead of treating absent tool-and-extent details as a universal failure. It gives up a blanket disclosure requirement, so it could miss an unstated expectation. I re-ran `pkg-20` as a reject canary in the targeted pass; it remained `reject`, and the final full run matched both packages' gold labels. Likewise, my test-evidence rule accepts a named ancillary check with its reported outcome without demanding a full transcript, while still requiring decisive before/after proof for the issue-specific regression. That revision let `pkg-08` and `pkg-16` pass without letting the `not-tested` canary `pkg-07` through.
